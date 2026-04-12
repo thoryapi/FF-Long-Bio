@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>{{ config.site_name }} | Neon Bio Injector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #0a0a0f;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Neon Glow Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 10, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .popup-card {
+            background: linear-gradient(135deg, #0f0f1a, #0a0a0f);
+            border-radius: 32px;
+            padding: 32px 24px;
+            max-width: 340px;
+            width: 85%;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .popup-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 0px cyan; }
+            50% { transform: scale(1.05); text-shadow: 0 0 20px cyan; }
+        }
+
+        .popup-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .popup-message {
+            color: #8888aa;
+            margin-bottom: 28px;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .social-btn {
+            padding: 12px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .btn-youtube {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .btn-instagram {
+            background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #00ccff, #0099ff);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            transition: all 0.3s;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .continue-btn.active {
+            opacity: 1;
+            pointer-events: auto;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .continue-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 16px 80px;
+            position: relative;
+            z-index: 1;
+            display: none;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 10px;
+        }
+
+        .logo {
+            font-size: 56px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+            animation: glowPulse 3s infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3)); }
+            50% { filter: drop-shadow(0 0 25px rgba(0, 255, 255, 0.7)); }
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #6a6a8a;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: rgba(15, 15, 25, 0.8);
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6a6a8a;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .step.active {
+            border-color: #00ffff;
+            color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        .step.completed {
+            border-color: #00ff88;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(10, 10, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            transition: all 0.3s;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #8888aa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            border-radius: 16px;
+            padding: 14px 16px;
+            color: white;
+            font-family: 'Inter', monospace;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Token wrapper */
+        .token-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .token-wrapper input {
+            flex: 1;
+        }
+
+        .paste-btn {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 0 18px;
+            color: #00ffff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .paste-btn:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #00ccff, #0099ff);
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            color: #00ffff;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 12px;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+
+        /* Account Info Display */
+        .account-info {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(0, 153, 255, 0.03));
+            border-radius: 20px;
+            padding: 16px;
+            margin-top: 16px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #8888aa;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 14px;
+            color: #00ffff;
+        }
+
+        /* Character counter */
+        .char-count {
+            text-align: right;
+            font-size: 10px;
+            color: #8888aa;
+            margin-top: 6px;
+        }
+
+        .char-count.warning {
+            color: #ff6688;
+        }
+
+        /* External buttons */
+        .external-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-external {
+            flex: 1;
+            background: rgba(20, 20, 35, 0.9);
+            padding: 12px;
+            border-radius: 40px;
+            text-align: center;
+            text-decoration: none;
+            color: #00ffff;
+            font-weight: 600;
+            font-size: 12px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-external:hover {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #00ffff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #555577;
+            font-size: 10px;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .footer a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .success-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-card {
+            background: linear-gradient(135deg, #0f0f1a, #0a0a0f);
+            border-radius: 32px;
+            padding: 28px 24px;
+            max-width: 360px;
+            width: 85%;
+            text-align: center;
+            border: 1px solid #00ff88;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            color: #00ff88;
+            margin-bottom: 16px;
+            text-shadow: 0 0 20px #00ff88;
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #00ff88;
+            margin-bottom: 20px;
+        }
+
+        .success-details {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 16px;
+            margin: 16px 0;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #8888aa;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 13px;
+            color: #00ff88;
+        }
+
+        .bio-preview {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 12px;
+            line-height: 1.5;
+            word-break: break-all;
+            color: #ccccdd;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .close-success {
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Popup Overlay -->
+<div id="popupOverlay" class="popup-overlay">
+    <div class="popup-card">
+        <div class="popup-icon">{{ config.site_logo_emoji }}</div>
+        <div class="popup-title">{{ config.popup_title }}</div>
+        <div class="popup-message">{{ config.popup_message }}</div>
+        <div class="social-buttons">
+            <a href="{{ config.youtube_link }}" target="_blank" id="youtubeBtn" class="social-btn btn-youtube">
+                <i class="fab fa-youtube"></i> Subscribe
+            </a>
+            <a href="{{ config.instagram_link }}" target="_blank" id="instagramBtn" class="social-btn btn-instagram">
+                <i class="fab fa-instagram"></i> Follow
+            </a>
+        </div>
+        <button class="continue-btn" id="continueBtn" disabled>
+            <i class="fas fa-check-circle"></i> Continue to App
+        </button>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="success-modal">
+    <div class="success-card">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="success-title">BIO UPDATED!</div>
+        <div class="success-details">
+            <div class="detail-row">
+                <span class="detail-label"><i class="fas fa-user"></i> UID</span>
+                <span class="detail-value" id="successUid">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label"><i class="fas fa-globe"></i> Region</span>
+                <span class="detail-value" id="successRegion">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label"><i class="fas fa-pen"></i> Bio</span>
+                <span class="detail-value">-</span>
+            </div>
+            <div class="bio-preview" id="successBio"></div>
+        </div>
+        <button class="close-success" onclick="closeSuccessModal()">
+            <i class="fas fa-thumbs-up"></i> AWESOME!
+        </button>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div id="mainContainer" class="main-container">
+    <div class="header">
+        <div class="logo">{{ config.site_logo_emoji }}</div>
+        <h1>{{ config.site_name }}</h1>
+        <div class="subtitle">Add Long Bio to Your FF Profile Easily</div>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="step-indicator">
+        <div class="step" id="step1">1. VERIFY TOKEN</div>
+        <div class="step" id="step2">2. WRITE BIO</div>
+        <div class="step" id="step3">3. UPDATE</div>
+    </div>
+
+    <!-- Step 1: Token Verification -->
+    <div id="step1Container">
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-key"></i> ENTER EAT TOKEN
+            </div>
+            <div class="input-group">
+                <label>EAT Token or Full URL</label>
+                <div class="token-wrapper">
+                    <input type="text" id="eatToken" placeholder="Paste token or URL here...">
+                    <button class="paste-btn" onclick="pasteToken()">
+                        <i class="fas fa-paste"></i>
+                    </button>
+                </div>
+                <div style="font-size: 10px; color: #555577; margin-top: 8px;">
+                    <i class="fas fa-info-circle"></i> Accepts raw token or full URL with ?eat=
+                </div>
+            </div>
+            <button class="btn-primary" id="verifyBtn" onclick="verifyToken()">
+                <i class="fas fa-bolt"></i> VERIFY & CONTINUE
+            </button>
+        </div>
+    </div>
+
+    <!-- Step 2: Bio Editor (Hidden initially) -->
+    <div id="step2Container" style="display: none;">
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-pen-fancy"></i> WRITE YOUR BIO
+            </div>
+            <div class="input-group">
+                <label>BIO TEXT (max {{ config.bio_char_limit }} chars)</label>
+                <textarea id="bioText" placeholder="Enter your bio here..."></textarea>
+                <div class="char-count" id="charCount">0 / {{ config.bio_char_limit }}</div>
+            </div>
+            
+            <div class="account-info">
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-user"></i> UID</span>
+                    <span class="info-value" id="displayUid">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-globe"></i> Region</span>
+                    <span class="info-value" id="displayRegion">-</span>
+                </div>
+            </div>
+            
+            <button class="btn-primary" id="updateBioBtn" onclick="updateBio()">
+                <i class="fas fa-sync-alt"></i> SET LONG BIO
+            </button>
+            <button class="btn-secondary" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> BACK
+            </button>
+        </div>
+    </div>
+
+    <!-- External Links -->
+    <div class="external-buttons">
+        <a href="https://ticket.kiosgamer.co.id/" target="_blank" class="btn-external">
+            <i class="fas fa-ticket-alt"></i> GET EAT TOKEN
+        </a>
+        <a href="https://bio-editor.thory.workers.dev/" target="_blank" class="btn-external">
+            <i class="fas fa-palette"></i> COLORFUL BIO EDITOR
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        {{ config.footer_text }}<br>
+        <i class="fab fa-youtube"></i> <a href="{{ config.youtube_link }}" target="_blank">YouTube</a> &nbsp;|&nbsp;
+        <i class="fab fa-instagram"></i> <a href="{{ config.instagram_link }}" target="_blank">Instagram</a>
+    </div>
+</div>
+
+<script>
+    // Popup handling
+    let youtubeClicked = false;
+    let instagramClicked = false;
+    
+    if (sessionStorage.getItem('popupClosed') === 'true') {
+        document.getElementById('popupOverlay').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
+    }
+    
+    document.getElementById('youtubeBtn').addEventListener('click', function() {
+        youtubeClicked = true;
+        checkContinue();
+    });
+    
+    document.getElementById('instagramBtn').addEventListener('click', function() {
+        instagramClicked = true;
+        checkContinue();
+    });
+    
+    function checkContinue() {
+        const continueBtn = document.getElementById('continueBtn');
+        if (youtubeClicked && instagramClicked) {
+            continueBtn.classList.add('active');
+            continueBtn.disabled = false;
+        }
+    }
+    
+    function closePopup() {
+        sessionStorage.setItem('popupClosed', 'true');
+        document.getElementById('popupOverlay').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
+    }
+    
+    document.getElementById('continueBtn').onclick = closePopup;
+    
+    // Global variables
+    let currentJwt = null;
+    let currentAccount = null;
+    
+    // Paste token
+    async function pasteToken() {
+        try {
+            const text = await navigator.clipboard.readText();
+            document.getElementById('eatToken').value = text;
+        } catch (err) {
+            alert('Could not paste. Please enter manually.');
+        }
+    }
+    
+    // Extract token from URL
+    function extractToken(input) {
+        if (!input) return null;
+        if (input.includes('?eat=')) {
+            const urlParams = new URLSearchParams(input.split('?')[1]);
+            return urlParams.get('eat');
+        }
+        if (input.includes('&eat=')) {
+            const match = input.match(/[?&]eat=([^&]+)/);
+            if (match) return match[1];
+        }
+        return input;
+    }
+    
+    // Step 1: Verify Token
+    async function verifyToken() {
+        const rawToken = document.getElementById('eatToken').value.trim();
+        
+        if (!rawToken) {
+            alert('❌ Please enter your EAT token or URL');
+            return;
+        }
+        
+        const eatToken = extractToken(rawToken);
+        if (!eatToken) {
+            alert('❌ Invalid token format');
+            return;
+        }
+        
+        const btn = document.getElementById('verifyBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner"></span> VERIFYING...';
+        btn.disabled = true;
+        
+        try {
+            const response = await fetch('/api/verify-token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ eat_token: eatToken })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                currentJwt = data.jwt_token;
+                currentAccount = data.account;
+                
+                // Update UI
+                document.getElementById('step1').classList.add('completed');
+                document.getElementById('step2').classList.add('active');
+                document.getElementById('displayUid').textContent = currentAccount.uid || 'N/A';
+                document.getElementById('displayRegion').textContent = currentAccount.region || 'IND';
+                
+                // Switch to step 2
+                document.getElementById('step1Container').style.display = 'none';
+                document.getElementById('step2Container').style.display = 'block';
+            } else {
+                alert('❌ ' + (data.error || 'Verification failed'));
+            }
+        } catch (error) {
+            alert('❌ Network error: ' + error.message);
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+    
+    // Character counter
+    function updateCharCount() {
+        const bioText = document.getElementById('bioText');
+        const countSpan = document.getElementById('charCount');
+        const maxChars = {{ config.bio_char_limit }};
+        const len = bioText.value.length;
+        countSpan.innerHTML = `${len} / ${maxChars}`;
+        if (len > maxChars) {
+            countSpan.classList.add('warning');
+        } else {
+            countSpan.classList.remove('warning');
+        }
+    }
+    
+    document.getElementById('bioText').addEventListener('input', updateCharCount);
+    
+    // Go back
+    function goBack() {
+        document.getElementById('step1Container').style.display = 'block';
+        document.getElementById('step2Container').style.display = 'none';
+        document.getElementById('step1').classList.remove('completed');
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('step1').classList.add('active');
+        document.getElementById('step2').classList.remove('completed');
+    }
+    
+    // Step 3: Update Bio
+    async function updateBio() {
+        const bioText = document.getElementById('bioText').value.trim();
+        const maxChars = {{ config.bio_char_limit }};
+        
+        if (!bioText) {
+            alert('❌ Please write your bio first');
+            return;
+        }
+        
+        if (bioText.length > maxChars) {
+            alert(`❌ Bio exceeds ${maxChars} characters (${bioText.length})`);
+            return;
+        }
+        
+        if (!currentJwt) {
+            alert('❌ Session expired. Please verify token again.');
+            goBack();
+            return;
+        }
+        
+        const btn = document.getElementById('updateBioBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner"></span> UPDATING...';
+        btn.disabled = true;
+        
+        try {
+            const response = await fetch('/api/update-bio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jwt_token: currentJwt,
+                    bio: bioText,
+                    region: currentAccount ? currentAccount.region : 'IND'
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Show success modal with details
+                document.getElementById('successUid').textContent = currentAccount.uid || 'N/A';
+                document.getElementById('successRegion').textContent = currentAccount.region || 'IND';
+                document.getElementById('successBio').innerHTML = bioText.replace(/[\[\]]/g, '').substring(0, 200);
+                document.getElementById('successModal').classList.add('show');
+                
+                // Update step indicators
+                document.getElementById('step2').classList.add('completed');
+                document.getElementById('step3').classList.add('active');
+                
+                // Reset after modal closes
+            } else {
+                alert('❌ ' + (data.error || 'Update failed'));
+            }
+        } catch (error) {
+            alert('❌ Network error: ' + error.message);
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+    
+    function closeSuccessModal() {
+        document.getElementById('successModal').classList.remove('show');
+        // Reset form for next use
+        document.getElementById('eatToken').value = '';
+        document.getElementById('bioText').value = '';
+        document.getElementById('step1Container').style.display = 'block';
+        document.getElementById('step2Container').style.display = 'none';
+        document.getElementById('step1').classList.remove('completed');
+        document.getElementById('step2').classList.remove('active', 'completed');
+        document.getElementById('step3').classList.remove('active');
+        document.getElementById('step1').classList.add('active');
+        currentJwt = null;
+        currentAccount = null;
+        updateCharCount();
+    }
+    
+    // Initialize step 1 as active
+    document.getElementById('step1').classList.add('active');
+</script>
+</body>
+</html>
