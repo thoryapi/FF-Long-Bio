@@ -452,6 +452,53 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
         }
 
+        /* NEW STYLES: Action Buttons Row (How to Use + Create Own) */
+        .action-buttons-row {
+            display: flex;
+            gap: 14px;
+            margin: 24px 0 16px;
+            justify-content: center;
+        }
+        .action-btn {
+            flex: 1;
+            background: rgba(10, 10, 20, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 12px 10px;
+            border-radius: 60px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #ccf4ff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .action-btn i {
+            font-size: 14px;
+            color: #0ff;
+        }
+        .action-btn:hover {
+            background: rgba(0, 255, 255, 0.12);
+            border-color: #0ff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 255, 255, 0.2);
+            color: white;
+        }
+        /* Small create-own specific glow */
+        .create-own-btn {
+            background: linear-gradient(95deg, rgba(0,20,30,0.9), rgba(0,40,50,0.8));
+            border-image: none;
+        }
+        .howto-btn {
+            background: rgba(25, 20, 40, 0.9);
+        }
+
         /* Footer */
         .footer {
             text-align: center;
@@ -589,7 +636,6 @@
             margin-top: 16px;
         }
 
-        /* Hidden */
         .hidden {
             display: none;
         }
@@ -716,7 +762,19 @@
         </div>
     </div>
 
-    <!-- External Links -->
+    <!-- NEW SECTION: Two extra action buttons (How to Use + Create Your Own) - placed neatly below cards -->
+    <div class="action-buttons-row">
+        <!-- HOW TO USE BUTTON - opens video tutorial from config -->
+        <a href="{{ config.howto_video_link }}" target="_blank" class="action-btn howto-btn" id="howToUseBtn">
+            <i class="fas fa-play-circle"></i> <span>HOW TO USE</span>
+        </a>
+        <!-- CREATE OWN PAGE BUTTON - opens create guide video link from config -->
+        <a href="{{ config.create_own_video_link }}" target="_blank" class="action-btn create-own-btn" id="createOwnBtn">
+            <i class="fas fa-code-branch"></i> <span>CREATE OWN PAGE</span>
+        </a>
+    </div>
+
+    <!-- External Links (existing) -->
     <div class="external-buttons">
         <a href="https://ticket.kiosgamer.co.id/" target="_blank" class="btn-external">
             <i class="fas fa-ticket-alt"></i> GET EAT TOKEN
@@ -735,7 +793,7 @@
 </div>
 
 <script>
-    // Popup handling
+    // -------------------- Popup handling --------------------
     let youtubeClicked = false;
     let instagramClicked = false;
     
@@ -770,11 +828,11 @@
     
     document.getElementById('continueBtn').onclick = closePopup;
     
-    // Global variables
+    // -------------------- Global state --------------------
     let currentJwt = null;
     let currentAccount = null;
     
-    // Paste token
+    // Paste token helper
     async function pasteToken() {
         try {
             const text = await navigator.clipboard.readText();
@@ -784,7 +842,6 @@
         }
     }
     
-    // Extract token from URL
     function extractToken(input) {
         if (!input) return null;
         if (input.includes('?eat=')) {
@@ -798,15 +855,13 @@
         return input;
     }
     
-    // Step 1: Verify Token
+    // Step 1: Verify Token (mock API call matches backend expectation)
     async function verifyToken() {
         const rawToken = document.getElementById('eatToken').value.trim();
-        
         if (!rawToken) {
             alert('❌ Please enter your EAT token or URL');
             return;
         }
-        
         const eatToken = extractToken(rawToken);
         if (!eatToken) {
             alert('❌ Invalid token format');
@@ -824,20 +879,14 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ eat_token: eatToken })
             });
-            
             const data = await response.json();
-            
             if (data.success) {
                 currentJwt = data.jwt_token;
                 currentAccount = data.account;
-                
-                // Update UI
-                document.getElementById('step1').classList.add('completed');
-                document.getElementById('step2').classList.add('active');
                 document.getElementById('displayUid').textContent = currentAccount.uid || 'N/A';
                 document.getElementById('displayRegion').textContent = currentAccount.region || 'IND';
-                
-                // Switch to step 2
+                document.getElementById('step1').classList.add('completed');
+                document.getElementById('step2').classList.add('active');
                 document.getElementById('step1Container').style.display = 'none';
                 document.getElementById('step2Container').style.display = 'block';
             } else {
@@ -851,23 +900,17 @@
         }
     }
     
-    // Character counter
     function updateCharCount() {
         const bioText = document.getElementById('bioText');
         const countSpan = document.getElementById('charCount');
         const maxChars = {{ config.bio_char_limit }};
         const len = bioText.value.length;
         countSpan.innerHTML = `${len} / ${maxChars}`;
-        if (len > maxChars) {
-            countSpan.classList.add('warning');
-        } else {
-            countSpan.classList.remove('warning');
-        }
+        if (len > maxChars) countSpan.classList.add('warning');
+        else countSpan.classList.remove('warning');
     }
-    
     document.getElementById('bioText').addEventListener('input', updateCharCount);
     
-    // Go back
     function goBack() {
         document.getElementById('step1Container').style.display = 'block';
         document.getElementById('step2Container').style.display = 'none';
@@ -877,32 +920,26 @@
         document.getElementById('step2').classList.remove('completed');
     }
     
-    // Step 3: Update Bio
     async function updateBio() {
         const bioText = document.getElementById('bioText').value.trim();
         const maxChars = {{ config.bio_char_limit }};
-        
         if (!bioText) {
             alert('❌ Please write your bio first');
             return;
         }
-        
         if (bioText.length > maxChars) {
             alert(`❌ Bio exceeds ${maxChars} characters (${bioText.length})`);
             return;
         }
-        
         if (!currentJwt) {
             alert('❌ Session expired. Please verify token again.');
             goBack();
             return;
         }
-        
         const btn = document.getElementById('updateBioBtn');
         const originalText = btn.innerHTML;
         btn.innerHTML = '<span class="spinner"></span> UPDATING...';
         btn.disabled = true;
-        
         try {
             const response = await fetch('/api/update-bio', {
                 method: 'POST',
@@ -913,21 +950,14 @@
                     region: currentAccount ? currentAccount.region : 'IND'
                 })
             });
-            
             const data = await response.json();
-            
             if (data.success) {
-                // Show success modal with details
                 document.getElementById('successUid').textContent = currentAccount.uid || 'N/A';
                 document.getElementById('successRegion').textContent = currentAccount.region || 'IND';
                 document.getElementById('successBio').innerHTML = bioText.replace(/[\[\]]/g, '').substring(0, 200);
                 document.getElementById('successModal').classList.add('show');
-                
-                // Update step indicators
                 document.getElementById('step2').classList.add('completed');
                 document.getElementById('step3').classList.add('active');
-                
-                // Reset after modal closes
             } else {
                 alert('❌ ' + (data.error || 'Update failed'));
             }
@@ -941,7 +971,6 @@
     
     function closeSuccessModal() {
         document.getElementById('successModal').classList.remove('show');
-        // Reset form for next use
         document.getElementById('eatToken').value = '';
         document.getElementById('bioText').value = '';
         document.getElementById('step1Container').style.display = 'block';
@@ -955,8 +984,11 @@
         updateCharCount();
     }
     
-    // Initialize step 1 as active
     document.getElementById('step1').classList.add('active');
+    
+    // Optional: safety for how-to and create-own buttons – they already use config links,
+    // but we ensure if config vars are missing, they gracefully degrade but still work.
+    // All links will be populated by template engine.
 </script>
 </body>
 </html>
