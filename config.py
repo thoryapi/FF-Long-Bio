@@ -6,14 +6,14 @@
 
 SITE_CONFIG = {
     # Site Identity
-    "site_name": "THORYXFF",
+    "site_name": "XYZ LONG BIO",
     "site_logo_emoji": "⚡",
     
     # Free Fire Version
     "freefire_version": "OB53",
     
     # Social Links (for popup)
-    "youtube_link": "https://www.youtube.com/@GamesOfThory",
+    "youtube_link": "https://www.youtube.com/@GAMESOFTHORY",
     "instagram_link": "https://www.instagram.com/THORYXFF",
     
     # Popup Settings
@@ -68,6 +68,10 @@ SITE_CONFIG = {
         {
             "name": "FAUJI",
             "bio": "[B][C][I][228B22]Fauji hoon main, game hai mera yudh\n[32CD32]Ek trigger, ek nishana, hai mera wada\n[7CFC00]Pichhe hat ja warna ho jaayega tabah"
+        },
+        {
+            "name": "RAJA",
+            "bio": "[B][C][I][B22222]Raja hoon main game ka, hai yeh taaj\n[DC143C]Jo mere saamne aaya, woh hua barbaad\n[FF6347]Tera kya kaam yahan, ab ja bach ke"
         },
         {
             "name": "RAJA",
