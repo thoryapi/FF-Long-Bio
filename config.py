@@ -29,7 +29,7 @@ SITE_CONFIG = {
     
     # Video Tutorial Links
     "howto_video_link": "https://www.youtube.com/@GamesOfThory",
-    "create_own_video_link": "https://www.youtube.com/@GamesOfThory",   # ← last line, no comma
+    "create_own_video_link": "https://github.com/thory99/FF-Long-Bio",   # ← last line, no comma
 
 
     "templates": [
