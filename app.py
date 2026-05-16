@@ -26,6 +26,7 @@ except ImportError:
         "telegram_link": "https://t.me/yourchannel",
         "popup_title": "JOIN COMMUNITY",
         "popup_message": "Follow us!",
+        "promo_popup_enabled": True,  # 👈 NEW: True = show popup, False = direct site
         "bio_char_limit": 280,
         "default_region": "IND",
         "footer_text": "FF BIO TOOL",
@@ -154,6 +155,7 @@ def update_bio_with_jwt(jwt_token, bio_text, region):
 @app.route('/')
 @app.route('/page')
 def index():
+    # Pass promo_popup_enabled to template
     return render_template('index.html', config=SITE_CONFIG)
 
 @app.route('/api/verify-token', methods=['POST'])
