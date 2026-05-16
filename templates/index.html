@@ -215,10 +215,30 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
         <span class="badge" id="tokenBadge">Not Set</span>
       </div>
       
-      <button class="btn btn-primary mb10" onclick="window.open('https://ticket.kiosgamer.co.id/', '_blank')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Get EAT Token
-      </button>
+      <!-- Providers Login Section -->
+<div style="background:rgba(0,0,0,.25);border-radius:12px;padding:10px;margin-bottom:12px;">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:.7rem;font-weight:700;color:var(--txt3);letter-spacing:1px;">
+    <i class="fas fa-id-card"></i> LOGIN VIA PROVIDER — GET EAT TOKEN
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+    <a href="https://auth.garena.com/universal/oauth?platform=8&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;">
+      <img src="https://www.gstatic.com/marketing-cms/assets/images/d5/dc/cfe9ce8b4425b410b49b7f2dd3f3/g.webp=s48-fcrop64=1,00000000ffffffff-rw" width="28" height="28" alt="Google"/>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=3&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" width="28" height="28" alt="Facebook"/>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=10&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:24px;">
+      <i class="fab fa-apple"></i>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=11&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:22px;">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=5&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:22px;">
+      <i class="fab fa-vk"></i>
+    </a>
+  </div>
+  <p style="font-size:.6rem;text-align:center;margin-top:8px;color:var(--txt3);">Login → Redirect → Token auto-fetched</p>
+</div>
       
       <div class="token-row">
         <input type="text" id="tokenInput" class="inp" placeholder="Paste EAT or Access Token here…" oninput="onTokenInput()">
