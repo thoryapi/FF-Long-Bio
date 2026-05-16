@@ -214,30 +214,67 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
         EAT / Access Token
         <span class="badge" id="tokenBadge">Not Set</span>
       </div>
-      
-      <!-- Providers Login Section -->
-<div style="background:rgba(0,0,0,.25);border-radius:12px;padding:10px;margin-bottom:12px;">
-  <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:.7rem;font-weight:700;color:var(--txt3);letter-spacing:1px;">
-    <i class="fas fa-id-card"></i> LOGIN VIA PROVIDER — GET EAT TOKEN
+      <!-- Providers Login Section - Modern UI -->
+<div style="background:linear-gradient(135deg, rgba(124,63,255,.08), rgba(0,0,0,.3)); border-radius:16px; padding:16px; margin-bottom:16px; border:1px solid rgba(124,63,255,.2);">
+  <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+    <div style="width:28px; height:28px; background:linear-gradient(135deg, var(--acc), var(--acc2)); border-radius:8px; display:flex; align-items:center; justify-content:center;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 2a10 10 0 0 0-10 10c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.26.1-2.62 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.33.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.36.2 2.37.1 2.62.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.16.58.66.5A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+    </div>
+    <span style="font-size:.75rem; font-weight:700; letter-spacing:1px; color:var(--txt);">LOGIN WITH</span>
+    <span style="font-size:.7rem; padding:2px 10px; background:rgba(124,63,255,.2); border-radius:20px; color:var(--acc);">Get EAT Token</span>
   </div>
-  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-    <a href="https://auth.garena.com/universal/oauth?platform=8&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;">
-      <img src="https://www.gstatic.com/marketing-cms/assets/images/d5/dc/cfe9ce8b4425b410b49b7f2dd3f3/g.webp=s48-fcrop64=1,00000000ffffffff-rw" width="28" height="28" alt="Google"/>
+  
+  <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:space-around; align-items:center;">
+    <!-- Google -->
+    <a href="https://auth.garena.com/universal/oauth?platform=8&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex; flex-direction:column; align-items:center; gap:5px; text-decoration:none; transition:0.2s; opacity:0.9; hover:opacity:1; transform:scale(1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="width:52px; height:52px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,.2);">
+        <img src="https://www.gstatic.com/marketing-cms/assets/images/d5/dc/cfe9ce8b4425b410b49b7f2dd3f3/g.webp=s48-fcrop64=1,00000000ffffffff-rw" width="30" height="30" alt="Google"/>
+      </div>
+      <span style="font-size:.55rem; color:var(--txt3);">Google</span>
     </a>
-    <a href="https://auth.garena.com/universal/oauth?platform=3&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" width="28" height="28" alt="Facebook"/>
+    
+    <!-- Facebook -->
+    <a href="https://auth.garena.com/universal/oauth?platform=3&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex; flex-direction:column; align-items:center; gap:5px; text-decoration:none; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="width:52px; height:52px; background:#1877F2; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,.2);">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" width="28" height="28" alt="Facebook"/>
+      </div>
+      <span style="font-size:.55rem; color:var(--txt3);">Facebook</span>
     </a>
-    <a href="https://auth.garena.com/universal/oauth?platform=10&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:24px;">
-      <i class="fab fa-apple"></i>
+    
+    <!-- Apple -->
+    <a href="https://auth.garena.com/universal/oauth?platform=10&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex; flex-direction:column; align-items:center; gap:5px; text-decoration:none; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="width:52px; height:52px; background:#000000; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,.2);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+          <path d="M17.05 12.98c.02 1.87 1.64 2.49 1.66 2.5-.01.04-.26.89-.86 1.77-.52.77-1.06 1.54-1.91 1.55-.84.02-1.11-.5-2.07-.5-.96 0-1.26.5-2.05.51-.8.01-1.4-.84-1.91-1.61-1.07-1.59-1.89-4.49-.79-6.45.55-.97 1.52-1.59 2.58-1.61.81-.01 1.57.54 2.07.54.49 0 1.42-.67 2.39-.57.41.01 1.55.16 2.28 1.24-.06.04-1.36.79-1.35 2.36zM15.01 5.67c.44-.53.74-1.27.66-2-.64.03-1.41.43-1.87.96-.42.48-.78 1.21-.68 1.92.72.06 1.45-.4 1.89-.88z"/>
+        </svg>
+      </div>
+      <span style="font-size:.55rem; color:var(--txt3);">Apple</span>
     </a>
-    <a href="https://auth.garena.com/universal/oauth?platform=11&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:22px;">
-      <i class="fab fa-twitter"></i>
+    
+    <!-- Twitter / X -->
+    <a href="https://auth.garena.com/universal/oauth?platform=11&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex; flex-direction:column; align-items:center; gap:5px; text-decoration:none; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="width:52px; height:52px; background:#000000; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,.2);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </div>
+      <span style="font-size:.55rem; color:var(--txt3);">X (Twitter)</span>
     </a>
-    <a href="https://auth.garena.com/universal/oauth?platform=5&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:22px;">
-      <i class="fab fa-vk"></i>
+    
+    <!-- VK -->
+    <a href="https://auth.garena.com/universal/oauth?platform=5&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex; flex-direction:column; align-items:center; gap:5px; text-decoration:none; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="width:52px; height:52px; background:#0077FF; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,.2);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+          <path d="M21.823 6.53c.114-.373 0-.643-.528-.643h-1.747c-.444 0-.65.235-.763.494 0 0-.893 2.174-2.157 3.586-.408.408-.594.538-.816.538-.112 0-.274-.13-.274-.504V6.53c0-.445-.13-.643-.507-.643h-2.74c-.284 0-.456.21-.456.41 0 .43.645.53.712 1.742v2.633c0 .576-.104.682-.33.682-.594 0-2.04-2.183-2.897-4.68-.168-.487-.338-.687-.788-.687H4.732c-.5 0-.6.235-.6.494 0 .46.607 2.74 2.824 5.754 1.478 2.13 3.565 3.284 5.46 3.284 1.138 0 1.28-.256 1.28-.698v-1.61c0-.502.106-.602.46-.602.262 0 .71.13 1.758 1.136 1.194 1.194 1.392 1.73 2.064 1.73h1.747c.5 0 .75-.256.606-.76-.158-.494-.728-1.21-1.482-2.058-.41-.48-1.025-.998-1.21-1.258-.262-.336-.188-.486 0-.788 0 0 2.142-3.018 2.364-4.042z"/>
+        </svg>
+      </div>
+      <span style="font-size:.55rem; color:var(--txt3);">VK</span>
     </a>
   </div>
-  <p style="font-size:.6rem;text-align:center;margin-top:8px;color:var(--txt3);">Login → Redirect → Token auto-fetched</p>
+  
+  <p style="font-size:.55rem; text-align:center; margin-top:14px; color:var(--txt3); border-top:1px solid rgba(124,63,255,.1); padding-top:10px;">
+    🔐 Login → Redirect → Token auto-fetched
+  </p>
 </div>
       
       <div class="token-row">
