@@ -26,6 +26,7 @@ except ImportError:
         "telegram_link": "https://t.me/yourchannel",
         "popup_title": "JOIN COMMUNITY",
         "popup_message": "Follow us!",
+        "promo_popup_enabled": True,  # 👈 NEW: True = show popup, False = direct site
         "bio_char_limit": 280,
         "default_region": "IND",
         "footer_text": "FF BIO TOOL",
@@ -62,10 +63,10 @@ def get_region_url(region):
         "US": "https://client.us.freefiremobile.com",
         "SAC": "https://client.us.freefiremobile.com",
         "NA": "https://client.us.freefiremobile.com",
-        "ME": "https://clientbp.common.ggbluefox.com",
-        "TH": "https://clientbp.common.ggbluefox.com"
+        "ME": "https://clientbp.common.ggpolarbear.com",
+        "TH": "https://clientbp.common.ggpolarbear.com"
     }
-    return region_urls.get(region.upper(), "https://clientbp.ggblueshark.com")
+    return region_urls.get(region.upper(), "https://clientbp.ggpolarbear.com")
 
 def get_account_from_eat(eat_token):
     try:
@@ -127,7 +128,7 @@ def update_bio_with_jwt(jwt_token, bio_text, region):
         elif "us" in base_url:
             host = "client.us.freefiremobile.com"
         elif "common" in base_url:
-            host = "clientbp.common.ggbluefox.com"
+            host = "clientbp.common.ggpolarbear.com"
         else:
             host = "clientbp.ggblueshark.com"
         
@@ -154,6 +155,7 @@ def update_bio_with_jwt(jwt_token, bio_text, region):
 @app.route('/')
 @app.route('/page')
 def index():
+    # Pass promo_popup_enabled to template
     return render_template('index.html', config=SITE_CONFIG)
 
 @app.route('/api/verify-token', methods=['POST'])

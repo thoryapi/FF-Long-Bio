@@ -215,10 +215,30 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
         <span class="badge" id="tokenBadge">Not Set</span>
       </div>
       
-      <button class="btn btn-primary mb10" onclick="window.open('https://ticket.kiosgamer.co.id/', '_blank')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Get EAT Token
-      </button>
+      <!-- Providers Login Section -->
+<div style="background:rgba(0,0,0,.25);border-radius:12px;padding:10px;margin-bottom:12px;">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:.7rem;font-weight:700;color:var(--txt3);letter-spacing:1px;">
+    <i class="fas fa-id-card"></i> LOGIN VIA PROVIDER — GET EAT TOKEN
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+    <a href="https://auth.garena.com/universal/oauth?platform=8&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;">
+      <img src="https://www.gstatic.com/marketing-cms/assets/images/d5/dc/cfe9ce8b4425b410b49b7f2dd3f3/g.webp=s48-fcrop64=1,00000000ffffffff-rw" width="28" height="28" alt="Google"/>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=3&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" width="28" height="28" alt="Facebook"/>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=10&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:24px;">
+      <i class="fab fa-apple"></i>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=11&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:22px;">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://auth.garena.com/universal/oauth?platform=5&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-ticket.ff.gameid.garena.co.id/oauth/callback_redirect/" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:30px;border:1px solid var(--bd2);transition:.2s;text-decoration:none;color:white;font-size:22px;">
+      <i class="fab fa-vk"></i>
+    </a>
+  </div>
+  <p style="font-size:.6rem;text-align:center;margin-top:8px;color:var(--txt3);">Login → Redirect → Token auto-fetched</p>
+</div>
       
       <div class="token-row">
         <input type="text" id="tokenInput" class="inp" placeholder="Paste EAT or Access Token here…" oninput="onTokenInput()">
@@ -507,35 +527,38 @@ const GRADIENTS = [
     });
   }
   
-  // Welcome popup - No emojis, SVG icons only
-  if(CFG.popup_title && !sessionStorage.getItem('wc_shown')){
+  // Welcome popup - Conditional based on promo_popup_enabled
+if(CFG.promo_popup_enabled && !sessionStorage.getItem('wc_shown')){
     sessionStorage.setItem('wc_shown','1');
     document.getElementById('welcomeTitle').textContent = CFG.popup_title || "JOIN COMMUNITY";
     document.getElementById('welcomeMsg').textContent = CFG.popup_message || "Follow to unlock Bio Injector!";
     const wBtns = document.getElementById('welcomeBtns');
     let ytClicked = false, igClicked = false;
     if(CFG.youtube_link) {
-      let ytBtn = document.createElement('button');
-      ytBtn.className = 'btn btn-primary';
-      ytBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg> Subscribe on YouTube';
-      ytBtn.onclick = () => { window.open(CFG.youtube_link, '_blank'); ytClicked = true; checkBoth(); };
-      wBtns.appendChild(ytBtn);
+        let ytBtn = document.createElement('button');
+        ytBtn.className = 'btn btn-primary';
+        ytBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg> Subscribe on YouTube';
+        ytBtn.onclick = () => { window.open(CFG.youtube_link, '_blank'); ytClicked = true; checkBoth(); };
+        wBtns.appendChild(ytBtn);
     }
     if(CFG.instagram_link) {
-      let igBtn = document.createElement('button');
-      igBtn.className = 'btn btn-primary';
-      igBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px"><rect x="2" y="2" width="20" height="20" rx="4" fill="url(#instaGradSmall)"/><circle cx="12" cy="12" r="4" fill="none" stroke="#FFFFFF" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#FFFFFF"/><defs><linearGradient id="instaGradSmall" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fdf497"/><stop offset="40%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="100%" stop-color="#285aeb"/></linearGradient></defs></svg> Follow on Instagram';
-      igBtn.onclick = () => { window.open(CFG.instagram_link, '_blank'); igClicked = true; checkBoth(); };
-      wBtns.appendChild(igBtn);
+        let igBtn = document.createElement('button');
+        igBtn.className = 'btn btn-primary';
+        igBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px"><rect x="2" y="2" width="20" height="20" rx="4" fill="url(#instaGradSmall)"/><circle cx="12" cy="12" r="4" fill="none" stroke="#FFFFFF" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#FFFFFF"/><defs><linearGradient id="instaGradSmall" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fdf497"/><stop offset="40%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="100%" stop-color="#285aeb"/></linearGradient></defs></svg> Follow on Instagram';
+        igBtn.onclick = () => { window.open(CFG.instagram_link, '_blank'); igClicked = true; checkBoth(); };
+        wBtns.appendChild(igBtn);
     }
     function checkBoth() {
-      if(ytClicked && igClicked) {
-        document.getElementById('continueBtn').style.opacity = '1';
-        document.getElementById('continueBtn').disabled = false;
-      }
+        if(ytClicked && igClicked) {
+            document.getElementById('continueBtn').style.opacity = '1';
+            document.getElementById('continueBtn').disabled = false;
+        }
     }
     setTimeout(() => openModal('welcomeModal'), 500);
-  }
+} else if (!CFG.promo_popup_enabled) {
+    // Popup disabled - site loads directly without any popup
+    console.log("Promo popup disabled, loading site directly");
+}
 })();
 
 let currentJwtToken = null;
