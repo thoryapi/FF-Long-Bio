@@ -20,7 +20,7 @@ except ImportError:
     SITE_CONFIG = {
         "site_name": "FF BIO TOOL",
         "site_logo_emoji": "⚡",
-        "freefire_version": "OB53",
+        "freefire_version": "OB54",
         "youtube_link": "https://youtube.com",
         "instagram_link": "https://instagram.com",
         "telegram_link": "https://t.me/yourchannel",
@@ -137,7 +137,7 @@ def update_bio_with_jwt(jwt_token, bio_text, region):
             "Authorization": f"Bearer {jwt_token}",
             "X-Unity-Version": "2018.4.11f1",
             "X-GA": "v1 1",
-            "ReleaseVersion": SITE_CONFIG.get('freefire_version', 'OB53'),
+            "ReleaseVersion": SITE_CONFIG.get('freefire_version', 'OB54'),
             "Content-Type": "application/x-www-form-urlencoded",
             "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 11; SM-A305F Build/RP1A.200720.012)",
             "Host": host,
